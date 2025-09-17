@@ -21,6 +21,7 @@ export default function BottomRoutes() {
                 name="User"
                 component={User}
             />
+
         </Tab.Navigator>
     )
 }
