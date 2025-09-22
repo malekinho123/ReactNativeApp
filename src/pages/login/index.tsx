@@ -3,10 +3,11 @@ import { Text, View, Image, TextInput, TouchableOpacity, Alert, ActivityIndicato
 import { style } from "./styles";
 import Logo from '../../assets/logo.png';
 import { MaterialIcons, Octicons } from '@expo/vector-icons';
-import { themes } from "../../global/themes";
+import { themas } from "../../global/themes";
 import { Input } from "../../components/input";
 import { Button } from "../../components/Button";
-import { useNavigation, NavigationProp } from '@react-navigation/native'
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { BottomRoutes } from "../../routes/bottom.routes";
 
 export default function Login() {
 
@@ -24,8 +25,12 @@ export default function Login() {
                 return Alert.alert('Atenção', 'Informe os campos obrigatórios!'),
                     setLoading(false);
             }
+            navigation.navigate("BottomRoutes")
+            console.log("Logou!");
         } catch (error) {
             console.log(error);
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -61,7 +66,7 @@ export default function Login() {
                 <Button text="Entrar" loading={loading} onPress={() => getLogin()} />
             </View>
             <Text style={style.textBottom}>Não tem conta?
-                <Text style={{ color: themes.colors.primary }}> Crie agora!</Text></Text>
+                <Text style={{ color: themas.colors.primary }}> Crie agora!</Text></Text>
         </View>
     )
 }
