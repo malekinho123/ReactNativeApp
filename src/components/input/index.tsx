@@ -1,5 +1,5 @@
 import React, { ForwardedRef, forwardRef, Fragment } from "react";
-import { View, Text, TextInput, TextInputProps, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TextInputProps, TouchableOpacity, StyleProp, TextStyle } from "react-native";
 import { style } from "./style";
 import { themas } from "../../global/themes";
 import { FontAwesome, MaterialIcons, Octicons } from "@expo/vector-icons";
@@ -16,11 +16,13 @@ type Props = TextInputProps & {
     title?: string,
     OnIconLeftPress?: () => void,
     OnIconRightPress?: () => void,
+    height?: number,
+    labelStyle?:StyleProp<TextStyle>
 }
 
 export const Input = forwardRef<TextInput, Props>((Props: Props, ref: ForwardedRef<TextInput> | null) => {
     const { IconLeft, IconRight, IconLeftName, IconRightName, title, OnIconLeftPress, OnIconRightPress,
-        ...rest
+        height, labelStyle,    ...rest
     } = Props
     const calculateSizeWidth = () => {
         if (IconLeft && IconRight) {
@@ -43,8 +45,8 @@ export const Input = forwardRef<TextInput, Props>((Props: Props, ref: ForwardedR
     }
     return (
         <Fragment>
-            {title && <Text style={style.titleInput}>{title}</Text>}
-            <View style={[style.boxInput, { paddingLeft: calculateSizePaddingLeft() }]}>
+            {title && <Text style={[style.titleInput, labelStyle]}>{title}</Text>}
+            <View style={[style.boxInput, { paddingLeft: calculateSizePaddingLeft(), height:height||40 }]}>
                 {IconLeft && IconLeftName && (
                     <TouchableOpacity onPress={OnIconLeftPress} style={style.Button}>
                         <IconLeft name={IconLeftName as any} size={20} color={themas.colors.gray}
@@ -53,7 +55,7 @@ export const Input = forwardRef<TextInput, Props>((Props: Props, ref: ForwardedR
                     </TouchableOpacity>
                 )}
                 <TextInput
-                    style={[style.input, { width: calculateSizeWidth() }
+                    style={[style.input, { width: calculateSizeWidth(),height:'100%'  }
                     ]}
                     {...rest}
                 />

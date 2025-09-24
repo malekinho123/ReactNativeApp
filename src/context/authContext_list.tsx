@@ -1,7 +1,9 @@
-import React, { createContext, useContext, useRef } from "react";
+import React, { createContext, useContext, useRef, useEffect } from "react";
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import {MaterialIcons, AntDesign} from '@expo/vector-icons';
+import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import { Modalize } from "react-native-modalize";
+import { Input } from "../components/input";
+
 export const AuthContextList: any = createContext({});
 
 export const AuthProviderList = (props: any): any => {
@@ -10,23 +12,51 @@ export const AuthProviderList = (props: any): any => {
     const onOpen = () => {
         modalizeRef?.current?.open();
     }
-    const _container = () =>{
+
+    useEffect(() => {
+        onOpen()
+    }, [])
+    const _container = () => {
         return (
             <View style={styles.container}>
                 <View style={styles.header}>
                     <TouchableOpacity>
                         <MaterialIcons
-                        name = "close"
-                        size={30}
+                            name="close"
+                            size={30}
                         />
                     </TouchableOpacity>
-                    <Text>Criar tarefa</Text>
+                    <Text style={styles.title}>Criar tarefa</Text>
                     <TouchableOpacity>
                         <AntDesign
-                        name="check"
-                        size={30}
+                            name="check"
+                            size={30}
                         />
                     </TouchableOpacity>
+                </View>
+                <View style={styles.content}>
+                    <Input
+                        title="Título"
+                        labelStyle={styles.label}
+                    />
+                    <Input
+                        title="Descrição"
+                        labelStyle={styles.label}
+                        height={100}
+                        multiline
+                    />
+                </View>
+                <View style={{ width: '40%' }}>
+                    <Input
+                        title="Tempo Limite:"
+                        labelStyle={styles.label}
+                    />
+                </View>
+                <View style={styles.containerFlag}>
+                    <Text style={styles.label}>Flags:</Text>
+                    <View style={{}}>
+
+                    </View>
                 </View>
             </View>
         )
@@ -37,22 +67,44 @@ export const AuthProviderList = (props: any): any => {
             <Modalize
                 ref={modalizeRef}
                 //modalHeight={Dimensions.get('window').height / 1.3}
-                childrenStyle={{height: Dimensions.get('window').height / 1.3}}
+                childrenStyle={{ height: Dimensions.get('window').height / 1.3 }}
                 adjustToContentHeight={true}
             >
-            {_container()}
+                {_container()}
             </Modalize>
         </AuthContextList.Provider>
     )
 }
 
 export const useAuth = () => useContext(AuthContextList);
-export const styles= StyleSheet.create({
+export const styles = StyleSheet.create({
     container: {
-
+        width: '100%'
     },
     header: {
-
+        width:'100%',
+        height: 40,
+        paddingHorizontal:40,
+        flexDirection: 'row',
+        marginTop: 20,
+        justifyContent:'space-between',
+        alignItems: 'center'
     },
+    containerFlag: {
+        width:'100%',
+        padding: 10
+    },
+    label: {
+        fontWeight: 'bold',
+        color: '#000'
+    },
+    content: {
+        width: '100%',
+        paddingHorizontal: 20
+    },
+    title:{
+        fontSize: 20,
+        fontWeight: 'bold'
+    }
 
 })
