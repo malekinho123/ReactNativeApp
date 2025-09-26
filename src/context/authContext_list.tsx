@@ -11,25 +11,31 @@ export const AuthContextList: any = createContext({});
 const flags = [
     { caption: 'Urgente', color: themas.colors.red },
     { caption: 'Opcional', color: themas.colors.blueLight }
-]
+];
+
 export const AuthProviderList = (props: any): any => {
 
     const modalizeRef = useRef<Modalize>(null);
     const onOpen = () => {
         modalizeRef?.current?.open();
+
+    }
+    const onClose = () => {
+        modalizeRef?.current?.close();
     }
 
     useEffect(() => {
         onOpen()
     }, [])
 
-    const _renderFlags=()=>{
-        return(
+    const _renderFlags = () => {
+        return (
             flags.map((item, index) => (
-                <TouchableOpacity>
+                <TouchableOpacity key={index}>
                     <Flag
                         caption={item.caption}
                         color={item.color}
+                        selected
                     />
                 </TouchableOpacity>
             ))
@@ -40,23 +46,26 @@ export const AuthProviderList = (props: any): any => {
         return (
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => onClose()}>
                         <MaterialIcons
                             name="close"
                             size={30}
                         />
                     </TouchableOpacity>
-                    <Text style={styles.title}>Criar tarefa</Text>
+
+                    <Text style={styles.title}>Criar Tarefa</Text>
+
                     <TouchableOpacity>
                         <AntDesign
                             name="check"
                             size={30}
                         />
                     </TouchableOpacity>
+
                 </View>
                 <View style={styles.content}>
                     <Input
-                        title="Título"
+                        title="Titulo"
                         labelStyle={styles.label}
                     />
                     <Input
@@ -64,11 +73,12 @@ export const AuthProviderList = (props: any): any => {
                         labelStyle={styles.label}
                         height={100}
                         multiline
+                        numberOfLines={5}
                     />
                 </View>
                 <View style={{ width: '40%' }}>
                     <Input
-                        title="Tempo Limite:"
+                        title="Tempo limite:"
                         labelStyle={styles.label}
                     />
                 </View>
@@ -86,7 +96,7 @@ export const AuthProviderList = (props: any): any => {
             {props.children}
             <Modalize
                 ref={modalizeRef}
-                //modalHeight={Dimensions.get('window').height / 1.3}
+                // modalHeight={Dimensions.get('window').height / 1.3}
                 childrenStyle={{ height: Dimensions.get('window').height / 1.3 }}
                 adjustToContentHeight={true}
             >
@@ -110,6 +120,14 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center'
     },
+    title: {
+        fontSize: 20,
+        fontWeight: 'bold'
+    },
+    content: {
+        width: '100%',
+        paddingHorizontal: 20
+    },
     containerFlag: {
         width: '100%',
         padding: 10
@@ -118,18 +136,9 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#000'
     },
-    content: {
-        width: '100%',
-        paddingHorizontal: 20
-    },
-    title: {
-        fontSize: 20,
-        fontWeight: 'bold'
-    },
-    rowFlags:{
+    rowFlags: {
         flexDirection: 'row',
         gap: 10,
-        marginTop:10,
+        marginTop: 10
     }
-
 })
