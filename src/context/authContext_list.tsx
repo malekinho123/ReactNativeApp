@@ -23,7 +23,7 @@ export const AuthProviderList = (props: any): any => {
     const [selectedFlag, setSelectedFlag] = useState('Urgente');
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedTime, setSelectedTime] = useState(new Date());
-    const [showdatePicker, setShowDatePicker] =useState(false);
+    const [showDatePicker, setShowDatePicker] =useState(false);
     const [showTimePicker, setShowTimePicker] =useState(false);
 
 
@@ -59,7 +59,7 @@ export const AuthProviderList = (props: any): any => {
         setSelectedDate(date);
     }
     const handleTimeChange =(date) =>{
-        setSelected(date);
+        setSelectedTime(date);
     }
 
     const _container = () => {
@@ -109,17 +109,37 @@ export const AuthProviderList = (props: any): any => {
                         title="Tempo limite:"
                         labelStyle={styles.label}
                     /> */}
+                    <View style={{flexDirection: 'row', gap: 10, width:'100%'}}>
+                        <TouchableOpacity onPress={() => setShowDatePicker(true)} style={{width:200}}>
+                            <Input
+                                title="Data Limite"
+                                labelStyle={styles.label}
+                                editable={false}
+                                value={selectedDate.toLocaleDateString()}
+                                onPress={() => setShowDatePicker(true)}
+                            />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress= {() => setShowTimePicker(true)}style={{width:120}}>
+                            <Input
+                                title="Hora Limite"
+                                labelStyle={styles.label}
+                                editable={false}
+                                onPress={() => setShowTimePicker(true)}
+                                value={selectedTime.toLocaleTimeString()}
+                            />
+                        </TouchableOpacity>
+                    </View>
                     <CustomDateTimePicker
                         onDateChange={handleDateChange}
                         setShow={setShowDatePicker}
-                        show={showTimePicker}
+                        show={showDatePicker}
                         type={'date'}
                     />
                     <CustomDateTimePicker
                         onDateChange={handleTimeChange}
                         setShow={setShowTimePicker}
                         show={showTimePicker}
-                        type={'date'}
+                        type={'time'}
                     />
                 </View>
                 <View style={styles.containerFlag}>
