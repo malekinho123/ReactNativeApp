@@ -5,6 +5,7 @@ import { Modalize } from "react-native-modalize";
 import { Input } from "../components/input";
 import { themas } from "../global/themes";
 import { Flag } from "../components/Flag";
+import CustomDateTimePicker from "../components/CustomDateTimePicker";
 
 export const AuthContextList: any = createContext({});
 
@@ -19,7 +20,7 @@ export const AuthProviderList = (props: any): any => {
     const modalizeRef = useRef<Modalize>(null);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [selectedFlag, setSelected] = useState('Urgente');
+    const [selectedFlag, setSelectedFlag] = useState('Urgente');
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedTime, setSelectedTime] = useState(new Date());
 
@@ -37,18 +38,21 @@ export const AuthProviderList = (props: any): any => {
     }, [])
 
     const _renderFlags = () => {
-        return (
-            flags.map((item, index) => (
-                <TouchableOpacity key={index}>
-                    <Flag
-                        caption={item.caption}
-                        color={item.color}
-                        selected
-                    />
-                </TouchableOpacity>
-            ))
-        )
-    }
+    return (
+        flags.map((item, index) => (
+            <TouchableOpacity
+                key={index}
+                onPress={() => setSelectedFlag(item.caption)}
+            >
+                <Flag
+                    caption={item.caption}
+                    color={item.color}
+                    selected={selectedFlag === item.caption} 
+                />
+            </TouchableOpacity>
+        ))
+    )
+}
 
     const _container = () => {
         return (
@@ -93,9 +97,15 @@ export const AuthProviderList = (props: any): any => {
                     />
                 </View>
                 <View style={{ width: '40%' }}>
-                    <Input
+                    {/* <Input
                         title="Tempo limite:"
                         labelStyle={styles.label}
+                    /> */}
+                    <CustomDateTimePicker
+                        onDateChange={() => {}}
+                        setShow={() => {}}
+                        show={true}
+                        type={'date'}
                     />
                 </View>
                 <View style={styles.containerFlag}>
