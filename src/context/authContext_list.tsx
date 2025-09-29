@@ -102,6 +102,7 @@ export const AuthProviderList = (props: any): any => {
                         numberOfLines={5}
                         value={description}
                         onChangeText={setDescription}
+                        textAlignVertical='top'
                     />
                 </View>
                 <View style={{ width: '40%' }}>
