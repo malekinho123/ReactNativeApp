@@ -7,11 +7,11 @@ const CustomDateTimePicker = ({ type, onDateChange, show, setShow }) => {
     const [date, setDate] = useState(new Date());
 
     useEffect(() => {
-        if(onDateChange){
+        if (onDateChange) {
             onDateChange(date)
         }
     }, [date, onDateChange])
-    
+
     const onChange = (event, selectDate) => {
         const currentDate = selectDate || date;
         setDate(currentDate);
@@ -27,7 +27,8 @@ const CustomDateTimePicker = ({ type, onDateChange, show, setShow }) => {
             <View style={style.modalOverlay}>
                 <View style={[
                     style.container,
-                    Platform.OS == 'android' && {backgroundColor: 'transparent'}
+                    Platform.OS == 'android' && { backgroundColor: 'transparent' }
+
                 ]}>
                     <DateTimePicker
                         value={date}

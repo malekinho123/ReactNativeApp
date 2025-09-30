@@ -5,7 +5,7 @@ import { style } from "./styles";
 type Props = {
     caption: string,
     color: string,
-    selected: boolean
+    selected?: boolean
 }
 
 export function Flag({ ...rest }: Props) {

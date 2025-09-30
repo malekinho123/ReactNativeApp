@@ -6,6 +6,7 @@ import { Input } from "../components/input";
 import { themas } from "../global/themes";
 import { Flag } from "../components/Flag";
 import CustomDateTimePicker from "../components/CustomDateTimePicker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const AuthContextList: any = createContext({});
 
@@ -20,11 +21,11 @@ export const AuthProviderList = (props: any): any => {
     const modalizeRef = useRef<Modalize>(null);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [selectedFlag, setSelectedFlag] = useState('Urgente');
+    const [selectedFlag, setSelected] = useState('Urgente');
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedTime, setSelectedTime] = useState(new Date());
-    const [showDatePicker, setShowDatePicker] =useState(false);
-    const [showTimePicker, setShowTimePicker] =useState(false);
+    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [showTimePicker, setShowTimePicker] = useState(false);
 
 
     const onOpen = () => {
@@ -35,31 +36,37 @@ export const AuthProviderList = (props: any): any => {
         modalizeRef?.current?.close();
     }
 
-    useEffect(() => {
-        onOpen()
-    }, [])
+    
 
     const _renderFlags = () => {
-    return (
-        flags.map((item, index) => (
-            <TouchableOpacity
-                key={index}
-                onPress={() => setSelectedFlag(item.caption)}
-            >
-                <Flag
-                    caption={item.caption}
-                    color={item.color}
-                    selected={selectedFlag === item.caption} 
-                />
-            </TouchableOpacity>
-        ))
-    )
+        return (
+            flags.map((item, index) => (
+                <TouchableOpacity key={index}>
+                    <Flag
+                        caption={item.caption}
+                        color={item.color}
+                    //selected
+                    />
+                </TouchableOpacity>
+            ))
+        )
     }
-    const handleDateChange= (date) =>{
+    const handleDateChange = (date) => {
         setSelectedDate(date);
     }
-    const handleTimeChange =(date) =>{
-        setSelectedTime(date);
+    const handleTimeChange = (date) => {
+        setSelected(date);
+    }
+
+    const handleSave = () => {
+        const newItem = {
+            item: 0,
+            title: 'Titulo',
+            description: 'Descrição',
+            flags: 'Flags',
+            timeLimite: '01.02.2025'
+        }
+        console.log(newItem)
     }
 
     const _container = () => {
@@ -79,7 +86,7 @@ export const AuthProviderList = (props: any): any => {
 
                     <Text style={styles.title}>Criar Tarefa</Text>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => handleSave()}>
                         <AntDesign
                             name="check"
                             size={30}
@@ -102,7 +109,7 @@ export const AuthProviderList = (props: any): any => {
                         numberOfLines={5}
                         value={description}
                         onChangeText={setDescription}
-                        textAlignVertical='top'
+                        textAlignVertical="top"
                     />
                 </View>
                 <View style={{ width: '40%' }}>
@@ -110,8 +117,8 @@ export const AuthProviderList = (props: any): any => {
                         title="Tempo limite:"
                         labelStyle={styles.label}
                     /> */}
-                    <View style={{flexDirection: 'row', gap: 10, width:'100%'}}>
-                        <TouchableOpacity onPress={() => setShowDatePicker(true)} style={{width:200}}>
+                    <View style={{ flexDirection: 'row', gap: 10, width: '100%' }}>
+                        <TouchableOpacity onPress={() => setShowDatePicker(true)} style={{ width: 200 }}>
                             <Input
                                 title="Data Limite"
                                 labelStyle={styles.label}
@@ -120,13 +127,13 @@ export const AuthProviderList = (props: any): any => {
                                 onPress={() => setShowDatePicker(true)}
                             />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress= {() => setShowTimePicker(true)}style={{width:120}}>
+                        <TouchableOpacity style={{ width: 120 }} onPress={() => setShowTimePicker(true)}>
                             <Input
                                 title="Hora Limite"
                                 labelStyle={styles.label}
                                 editable={false}
-                                onPress={() => setShowTimePicker(true)}
                                 value={selectedTime.toLocaleTimeString()}
+                                onPress={() => setShowTimePicker(true)}
                             />
                         </TouchableOpacity>
                     </View>
