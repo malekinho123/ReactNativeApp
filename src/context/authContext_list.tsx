@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useRef, useEffect, useState } from "react";
-import { Dimensions, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Dimensions, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import { Modalize } from "react-native-modalize";
 import { Input } from "../components/input";
@@ -62,7 +62,11 @@ export const AuthProviderList = (props: any): any => {
         setSelectedTime(date);
     }
 
-    const handleSave = () => {
+    const handleSave = async() => {
+        if(!title || !description || !selectedFlag) {
+            return Alert.alert('Atenção', 'Preencha os campos corretamente');
+        }
+        try{
         const newItem = {
             item: Date.now,
             title,
@@ -76,7 +80,13 @@ export const AuthProviderList = (props: any): any => {
                 selectedTime.getMinutes()
             ).toISOString(),
         }
-        console.log(newItem)
+
+        await AsyncStorage.setItem('tasklist', JSON.stringify(newItem))
+
+    } catch(error){
+        console.log("Erro ao salvar o item", error)
+    }
+        
     }
 
     const _container = () => {
