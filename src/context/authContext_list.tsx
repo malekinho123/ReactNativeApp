@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useRef, useEffect, useState } from "react";
-import { Alert, Dimensions, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { createContext, useContext, useRef, useEffect, useState} from "react";
+import { Alert, Dimensions, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import { Modalize } from "react-native-modalize";
 import { Input } from "../components/input";
@@ -80,8 +80,11 @@ export const AuthProviderList = (props: any): any => {
                 selectedTime.getMinutes()
             ).toISOString(),
         }
-
-        await AsyncStorage.setItem('tasklist', JSON.stringify(newItem))
+        const storageData = await AsyncStorage.getItem('tasklist');
+        console.log(storageData)
+        let taskList = storageData? JSON.parse(storageData) : [];
+        taskList.push(newItem);
+        await AsyncStorage.setItem('taskList', JSON.stringify(taskList))
 
     } catch(error){
         console.log("Erro ao salvar o item", error)
